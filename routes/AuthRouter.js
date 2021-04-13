@@ -11,7 +11,7 @@ const AuthController = require("../controllers/AuthController");
  * @desc    Register endpoint
  * @access  Public
  */
-router.post("/register", AuthController.auth_register)
+router.post("/register", AuthController.authRegister)
 
 
 /**
@@ -19,7 +19,7 @@ router.post("/register", AuthController.auth_register)
  * @desc    Login endpoint
  * @access  Private
  */
-router.post("/login", AuthController.auth_login)
+router.post("/login", AuthController.authLogin)
 
 
 module.exports = router;
