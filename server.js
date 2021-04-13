@@ -9,6 +9,8 @@ const router = require("./routes/router");
 
 connectDB();
 
+app.use(express.json());
+
 // send every request to router
 app.use("/api", router)
 
