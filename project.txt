@@ -4,7 +4,11 @@ EPIC:
     - Landing Page
     - User auth (login system)
         STORY:  - Register Page
-                    - Login Page
+                    // TODO: validate the fields
+                    // TODO: is already registered before
+                    // TODO: crypt password
+                    // TODO: save the user to DB
+                - Login Page
     - Dashboard / Profile page
         STORY:  - Dashboard Page
     - Book list

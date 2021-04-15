@@ -13,6 +13,9 @@ const AuthController = require("../controllers/AuthController");
  */
 router.post("/register", AuthController.authRegister)
 
+// router.post("/register", mid1, mid2, mid3, AuthController.authRegister) 
+// bu sekilde middleware eklenebilir
+
 
 /**
  * @route   POST /api/auth/login
