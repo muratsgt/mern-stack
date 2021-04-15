@@ -1,4 +1,5 @@
 const express = require("express");
+const validator = require("express-validator");
 
 const router = express.Router();
 
@@ -11,10 +12,17 @@ const AuthController = require("../controllers/AuthController");
  * @desc    Register endpoint
  * @access  Public
  */
-router.post("/register", AuthController.authRegister)
+router.post("/register",
+    [
+        validator.check("password", "Please enter a password with at least 6 chars.")
+            .isLength({ min: 6 }),
+        validator.check("email", "Please enter a valid email!")
+            .isEmail(),
+    ],
+    AuthController.authRegister)
 
 // router.post("/register", mid1, mid2, mid3, AuthController.authRegister) 
-// bu sekilde middleware eklenebilir
+// bu sekilde middlewareler eklenebilir
 
 
 /**
