@@ -79,15 +79,20 @@ exports.authLogin = async (req, res) => {
 
 
     // authentication return JSON WEB TOKEN - JWT
-    jwt.sign({ userData }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" }, (err, token) => {
-        if (err) {
-            return res
-                .status(400)
-                .json({ errors: [{ message: "Unknown error" }] })
+    jwt.sign(
+        { userData },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: "1h" },
+        (err, token) => {
+            if (err) {
+                return res
+                    .status(400)
+                    .json({ errors: [{ message: "Unknown error" }] })
+            }
+            res.send(token);
         }
-        res.send(token);
-    });
+    );
 
 
-    res.send("Login Completed.");
+    // res.send("Login Completed.");
 };
