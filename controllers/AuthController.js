@@ -1,7 +1,7 @@
 const User = require("../models/UserModel");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");  // to crypt the password
 const validator = require("express-validator");
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');  // for token 
 
 // register controller
 exports.authRegister = async (req, res) => {

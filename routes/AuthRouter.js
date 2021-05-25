@@ -1,5 +1,5 @@
 const express = require("express");
-const validator = require("express-validator");
+const { check } = require("express-validator");
 
 const router = express.Router();
 
@@ -13,10 +13,10 @@ const AuthController = require("../controllers/AuthController");
  * @access  Public
  */
 router.post("/register",
-    [
-        validator.check("password", "Please enter a password with at least 6 chars.")
+    [ // validation middleware
+        check("password", "Please enter a password with at least 6 chars.")
             .isLength({ min: 6 }),
-        validator.check("email", "Please enter a valid email!")
+        check("email", "Please enter a valid email!")
             .isEmail(),
     ],
     AuthController.authRegister)
@@ -32,9 +32,9 @@ router.post("/register",
  */
 router.post("/login",
     [
-        validator.check("email", "Please enter a valid email!")
+        check("email", "Please enter a valid email!")
             .isEmail(),
-        validator.check("password", "Please enter a password with at least 6 chars.")
+        check("password", "Please enter a password with at least 6 chars.")
             .isLength({ min: 6 }),
     ],
     AuthController.authLogin)
