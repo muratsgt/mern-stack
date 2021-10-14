@@ -8,6 +8,7 @@ const connectDB = async () => {
             useFindAndModify: false,
             useCreateIndex: true,
         });
+        // await hata donerse otomatik catche atliyor
         console.log(`Succesfully connected to DB`)
     } catch (error) {
         console.log(`Error connecting DB`, error)

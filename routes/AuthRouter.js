@@ -39,5 +39,16 @@ router.post("/login",
     ],
     AuthController.authLogin)
 
+/**
+ * @route   POST /api/auth/forgotpass
+ * @desc    Login endpoint
+ * @access  Public
+ */
+router.post("/forgotpass",
+    check("email", "Please enter a valid email!")
+        .isEmail(),
+    AuthController.authForgotpass)
+
+
 
 module.exports = router;

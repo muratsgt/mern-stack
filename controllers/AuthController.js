@@ -15,7 +15,6 @@ exports.authRegister = async (req, res) => {
             .json({ errors: validationErr.errors });
     }
 
-
     // check if email registered before
     const userData = await User.findOne({ email: email });
     if (userData) {
@@ -24,11 +23,9 @@ exports.authRegister = async (req, res) => {
             .json({ errors: [{ message: "User already exists!" }] });
     }
 
-
     // crypt password
     const salt = await bcrypt.genSalt(10);    // salt is like complexity of crypt
     const newPassword = await bcrypt.hash(password, salt);
-
 
     // save user to DB
     const user = new User({
@@ -95,4 +92,27 @@ exports.authLogin = async (req, res) => {
 
 
     // res.send("Login Completed.");
+};
+
+exports.authForgotpass = async (req, res) => {
+
+    // validation check
+    const validationErr = validator.validationResult(req);
+    if (!validationErr.isEmpty()) {
+        return res
+            .status(400)
+            .json({ errors: validationErr.errors })
+    }
+
+    // user exist check
+    const { email } = req.body;
+    const userData = await User.findOne({ email: email });
+    if (!userData) {
+        return res
+            .status(400)
+            .json({ errors: [{ message: "User do not exists!" }] });
+    }
+
+    res.json({message: `Password reset email has sent to ${userData.email}`});
+
 };
