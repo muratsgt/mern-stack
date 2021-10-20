@@ -1,5 +1,4 @@
 const Book = require("../models/BookModel");
-const BookFile = require("../books.json");
 
 exports.getBookList = async (req, res) => {
 
