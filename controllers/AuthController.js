@@ -113,6 +113,6 @@ exports.authForgotpass = async (req, res) => {
             .json({ errors: [{ message: "User do not exists!" }] });
     }
 
-    res.json({message: `Password reset email has sent to ${userData.email}`});
+    res.json({ message: `Password reset email has sent to ${userData.email}` });
 
 };
