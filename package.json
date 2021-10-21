@@ -8,7 +8,11 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "reactclient": "npm start --prefix client",
+    "develop": "concurrently -n 'server,client' -c 'green,blue' \"npm run server\" \"npm run reactclient\" ",
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
   },
   "repository": {
     "type": "git",
@@ -27,13 +31,13 @@
   "homepage": "https://github.com/muratsgt/mern-stack#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^6.3.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.11"
-  },
-  "devDependencies": {
+    "mongoose": "^6.0.11",
     "nodemon": "^2.0.14"
-  }
+  },
+  "devDependencies": {}
 }
