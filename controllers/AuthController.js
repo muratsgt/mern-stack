@@ -16,8 +16,8 @@ exports.authRegister = async (req, res) => {
     }
 
     // check if email registered before
-    const userData = await User.findOne({ email: email });
-    if (userData) {
+    const userExist = await User.exists({ email: email });
+    if (userExist) {
         return res
             .status(400)
             .json({ errors: [{ message: "User already exists!" }] });
@@ -94,6 +94,7 @@ exports.authLogin = async (req, res) => {
     // res.send("Login Completed.");
 };
 
+// pasword forgotten
 exports.authForgotpass = async (req, res) => {
 
     // validation check

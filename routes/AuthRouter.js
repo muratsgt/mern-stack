@@ -1,5 +1,6 @@
 const express = require("express");
-const { check } = require("express-validator");
+// const { check } = require("express-validator");
+const valMiddleware = require("../middleware/valMiddleware");
 
 const router = express.Router();
 const AuthController = require("../controllers/AuthController");
@@ -12,12 +13,8 @@ const AuthController = require("../controllers/AuthController");
  * @access  Public
  */
 router.post("/register",
-    [ // validation middleware
-        check("password", "Please enter a password with at least 6 chars.")
-            .isLength({ min: 6 }),
-        check("email", "Please enter a valid email!")
-            .isEmail(),
-    ],
+    valMiddleware.validateEmail,
+    valMiddleware.validatePass,
     AuthController.authRegister)
 
 // router.post("/register", mid1, mid2, mid3, AuthController.authRegister) 
@@ -30,12 +27,8 @@ router.post("/register",
  * @access  Public
  */
 router.post("/login",
-    [
-        check("email", "Please enter a valid email!")
-            .isEmail(),
-        check("password", "Please enter a password with at least 6 chars.")
-            .isLength({ min: 6 }),
-    ],
+    valMiddleware.validateEmail,
+    valMiddleware.validatePass,
     AuthController.authLogin)
 
 /**
@@ -44,8 +37,7 @@ router.post("/login",
  * @access  Public
  */
 router.post("/forgotpass",
-    check("email", "Please enter a valid email!")
-        .isEmail(),
+    valMiddleware.validateEmail,
     AuthController.authForgotpass)
 
 
