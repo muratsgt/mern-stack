@@ -5,22 +5,22 @@ import { fetchData } from "../helper/FetchData";
 
 const { CheckableTag } = Tag;
 
-const tagsData = ["Any", "Animals", "Arch", "Nature", "People", "Tech"];
+const tagsData = ["all", "romance", "novel", "nature", "sciente", "tech"];
 
 const BookList = () => {
-  const [selectedTag, setSelectedTag] = useState(["Any"]);
+  const [selectedTag, setSelectedTag] = useState(["all"]);
   const [bookList, setBookList] = useState([]);
 
 
   useEffect(() => {
     fetchData("/api/books").then((data) => {
       console.log("data", data);
-      setBookList(data?.bookList);
+      setBookList(data?.BookList);
     });
   }, []);
 
   const handleChange = (tag, checked) => {
-    const nextSelectedTag = checked ? tag : "Any";
+    const nextSelectedTag = checked ? tag : "all";
     setSelectedTag(nextSelectedTag);
   };
 
@@ -42,6 +42,7 @@ const BookList = () => {
           bookList.map((book) => {
             return (
               <MediaCard
+                key={book?._id}
                 title={book?.title}
                 description={book?.author}
                 imgSrc={`http://placeimg.com/140/200/animals`}

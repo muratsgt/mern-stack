@@ -39,7 +39,6 @@ router.post("/login",
 router.post("/forgotpass",
     valMiddleware.validateEmail,
     AuthController.authForgotpass)
-
-
+    
 
 module.exports = router;

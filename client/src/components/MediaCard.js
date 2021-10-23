@@ -8,7 +8,7 @@ export const MediaCard = ({ title, description, imgSrc }) => {
 
   return (
     <div>
-      <Skeleton loading={loading} active>
+      {/* <Skeleton loading={loading} active> */}
         <Card
           hoverable
           loading={loading}
@@ -17,7 +17,7 @@ export const MediaCard = ({ title, description, imgSrc }) => {
         >
           <Meta title={title} description={description} />
         </Card>
-      </Skeleton>
+      {/* </Skeleton> */}
     </div>
   );
 };

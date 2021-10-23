@@ -1,5 +1,7 @@
 import { Form, Input, Button, Checkbox } from "antd";
 import { Layout } from "antd";
+import {postData} from "../helper/PostData";
+import {useHistory} from "react-router-dom";
 
 const { Content } = Layout;
 const layout = {
@@ -11,8 +13,14 @@ const tailLayout = {
 };
 
 const Signin = () => {
+  let history = useHistory();
+
   const onFinish = (values) => {
-    console.log("Success:", values);
+    postData("/api/auth/login",values).then((data)=>{
+      localStorage.setItem("token", data);
+      history.push("/")
+    });
+    // todo succes ise ana sayfa
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -29,8 +37,8 @@ const Signin = () => {
           onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            label="Username"
-            name="username"
+            label="Email"
+            name="email"
             rules={[{ required: true, message: "Please input your username!" }]}
           >
             <Input />
