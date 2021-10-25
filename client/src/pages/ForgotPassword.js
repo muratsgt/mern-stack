@@ -1,57 +1,66 @@
-import { Form, Input, Button, Checkbox } from "antd";
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
+import { Form, Input, Button, Checkbox } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { postData } from '../helper/PostData';
+import { useHistory } from 'react-router-dom';
+import { message } from 'antd';
 
 const ForgotPassword = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+    let history = useHistory();
 
-  return (
-    <Form
-      {...layout}
-      name="basic"
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-    >
-      <Form.Item
-        label="Username"
-        name="username"
-        rules={[{ required: true, message: "Please input your username!" }]}
-      >
-        <Input />
-      </Form.Item>
+    const onFinish = (values) => {
+        postData("/api/auth/forgotpass", values).then((data) => {
+            message.success(data.message, 3);
+            history.push("/");
+        }).catch(err => {
+            message.error('Email does not match our records.', 3);
+        });
+    };
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Input.Password />
-      </Form.Item>
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+        message.error('Email does not match our records.', 3);
+    };
 
-      <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
 
-      <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
-  );
+    return (
+        <div className="App">
+            <Form
+                id="login_form"
+                name="login"
+                className="login-form"
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                style={{ padding: "30px" }}
+            >
+                <Form.Item
+                    name="email"
+                    rules={[{
+                        required: true,
+                        message: "Please enter your email!"
+                    },
+                    {
+                        type: "email",
+                        message: "The input is not valid E-mail!"
+                    }
+                    ]}
+                >
+                    <Input
+                        prefix={<UserOutlined className="site-form-item-icon" />}
+                        placeholder="Email" />
+
+                </Form.Item>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="login-form-button">
+                        Submit
+                    </Button>
+                </Form.Item>
+            </Form>
+
+        </div >
+    )
 };
 
 export default ForgotPassword;

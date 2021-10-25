@@ -71,7 +71,7 @@ exports.authLogin = async (req, res) => {
     if (!passwordMatch) {
         return res
             .status(400)
-            .json({ errors: [{ message: "Invalid password!" }] });
+            .send({ errors: [{ message: "Invalid password!" }] });
     };
 
 

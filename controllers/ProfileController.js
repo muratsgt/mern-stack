@@ -5,11 +5,11 @@ const validator = require("express-validator");
 // profile info
 exports.getProfileInfo = async (req, res) => {
     try {
-        const userData = User.findById(req.decodedUser._id).select("-password");
+        const userData = await User.findById(req.decodedUser._id, "-password");
         res.status(200).json(userData);
     } catch (error) {
-        console.log(error.message);
-        res.status(500).send("Server Error");
+        console.log(error);
+        res.status(500).json(error);
     };
 }
 

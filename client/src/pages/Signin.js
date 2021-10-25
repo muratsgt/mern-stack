@@ -1,69 +1,99 @@
-import { Form, Input, Button, Checkbox } from "antd";
-import { Layout } from "antd";
-import {postData} from "../helper/PostData";
-import {useHistory} from "react-router-dom";
-
-const { Content } = Layout;
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
+import { Form, Input, Button, Checkbox } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { postData } from '../helper/PostData';
+import { useHistory } from 'react-router-dom';
+import { message} from 'antd';
 
 const Signin = () => {
-  let history = useHistory();
 
-  const onFinish = (values) => {
-    postData("/api/auth/login",values).then((data)=>{
-      localStorage.setItem("token", data);
-      history.push("/")
-    });
-    // todo succes ise ana sayfa
-  };
+    let history = useHistory();
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+    const onFinish = (values) => {
+        postData("/api/auth/login", values).then((data) => {
+            localStorage.setItem("token", data);
+            message.success('Login successfull',3);
+            history.push("/");
+        }).catch(err => {
+            console.log("FINISH ERROR: ",err);
+            message.error('Email or password does not match our records.',3);
+        });
+    };
 
-  return (
-      <div>
-        <Form
-          {...layout}
-          name="basic"
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-        >
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: "Please input your username!" }]}
-          >
-            <Input />
-          </Form.Item>
+    const onFinishFailed = (errorInfo) => {
+        message.error("Please enter your email and password correctly.",3);
+    };
 
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password />
-          </Form.Item>
 
-          <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
+    return (
+        <div className="App">
+            <Form
+                id="login_form"
+                name="login"
+                className="login-form"
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                autoComplete="off"
+                style={{ padding: "30px" }}
+            >
+                <Form.Item
+                    name="email"
+                    rules={[{
+                        required: true,
+                        message: "Please enter your email!"
+                    },
+                    {
+                        type: "email",
+                        message: "The input is not valid E-mail!"
+                    }
+                    ]}
+                >
+                    <Input
+                        prefix={<UserOutlined className="site-form-item-icon" />}
+                        placeholder="Email" />
 
-          <Form.Item {...tailLayout}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
-  );
+                </Form.Item>
+                <Form.Item
+                    name="password"
+                    rules={[{
+                        required: true,
+                        message: 'Please enter your password!'
+                    }, {
+                        min: 6,
+                        message: 'Must be at least 6 characters!'
+                    }]}
+                >
+                    <Input
+                        prefix={<LockOutlined className="site-form-item-icon" />}
+                        type="password"
+                        placeholder="Password"
+                    />
+                </Form.Item>
+
+                <Form.Item>
+                    <Form.Item
+                        name="remember"
+                        valuePropName="checked"
+                        noStyle
+                    >
+                        <Checkbox>Remember me</Checkbox>
+                    </Form.Item>
+
+                    <a className="login-form-forgot" href="/forgotpassword">
+                        Forgot password
+                    </a>
+                </Form.Item>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="login-form-button">
+                        Sign In
+                    </Button>
+                    Or <a href="/signup">register now!</a>
+                </Form.Item>
+            </Form>
+
+        </div >
+    )
 };
 
 export default Signin;

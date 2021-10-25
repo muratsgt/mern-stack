@@ -1,15 +1,19 @@
-import { Layout, Button } from "antd";
+import '../App.css';
 
-const { Content } = Layout;
-
-function Main() {
-  return (
-      <div className="site-layout-content">
-        <Button ghost className="main-button">
-          Get Started
-        </Button>
-      </div>
-  );
-}
+const Main = () => {
+    return (
+        <div className="App">
+            <header className="App-header">
+                <a
+                    className="App-link"
+                    href="/"
+                    rel="noopener noreferrer"
+                >
+                    Main Page
+                </a>
+            </header>
+        </div>
+    )
+};
 
 export default Main;
