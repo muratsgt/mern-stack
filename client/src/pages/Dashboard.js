@@ -1,15 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Descriptions } from 'antd';
 import { fetchData } from "../helper/FetchData";
+import { AuthContext } from "../context/AuthContext";
+import { useHistory } from "react-router-dom";
 
 const Dashboard = () => {
-    const [userData, setUserData] = useState()
+    const [userData, setUserData] = useState();
+    const { isLoggedIn } = useContext(AuthContext);
+    let history = useHistory();
 
     useEffect(() => {
-        fetchData("/api/profile").then((data) => {
-            setUserData(data);
-        }).catch((err) => console.log(err));
-    }, [])
+        if (isLoggedIn) {
+            fetchData("/api/profile").then((data) => {
+                setUserData(data);
+            }).catch((err) => console.log(err));
+        } else {
+            history.push("/");
+        }
+    }, [isLoggedIn])
 
     return (
         <div className="App">

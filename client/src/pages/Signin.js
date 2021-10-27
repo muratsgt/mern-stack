@@ -3,24 +3,27 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { postData } from '../helper/PostData';
 import { useHistory } from 'react-router-dom';
 import { message} from 'antd';
+import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
 
 const Signin = () => {
-
+    const {setLoggedIn} = useContext(AuthContext)
     let history = useHistory();
 
     const onFinish = (values) => {
         postData("/api/auth/login", values).then((data) => {
             localStorage.setItem("token", data);
-            message.success('Login successfull',3);
+            message.success('Login successfull',2);
+            setLoggedIn(values.email);
             history.push("/");
         }).catch(err => {
             console.log("FINISH ERROR: ",err);
-            message.error('Email or password does not match our records.',3);
+            message.error('Email or password does not match our records.',2);
         });
     };
 
     const onFinishFailed = (errorInfo) => {
-        message.error("Please enter your email and password correctly.",3);
+        message.error("Please enter your email and password correctly.",2);
     };
 
 

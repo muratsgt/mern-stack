@@ -1,6 +1,8 @@
 import '../App.css';
 
 const Main = () => {
+
+
     return (
         <div className="App">
             <header className="App-header">
@@ -11,6 +13,9 @@ const Main = () => {
                 >
                     Main Page
                 </a>
+                <p>
+                </p>
+
             </header>
         </div>
     )

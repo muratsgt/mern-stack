@@ -1,23 +1,29 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { useHistory } from "react-router-dom";
-import { Layout, Menu, Badge, Avatar } from "antd";
+import { Layout, Menu, Avatar } from "antd";
 import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
+import { AuthContext } from "../context/AuthContext";
+// import { BasketContext } from "../context/BasketContext";
+import { fetchData } from "../helper/FetchData";
+import logo from "../bookstore2.png";
+// import CartBadge from "./CartBadge";
 
 const { Header } = Layout;
 const { SubMenu } = Menu;
 
-// TODO : login olunca navbar update
 
 const Navbar = () => {
     let history = useHistory();
-
+    const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
+    // const { basketItems } = useContext(BasketContext);
     const [current, setCurrent] = useState("main");
-    const [isLogged, setIsLogged] = useState(!!localStorage.getItem("token"));
-    const [cartCount, setCartCount] = useState(!!localStorage.getItem("basket"));
 
     useEffect(() => {
-        setIsLogged(!!localStorage.getItem("token"));
-    }, [isLogged, cartCount]);
+        // checks if the user logged in
+        fetchData("/api/profile").then((data) => {
+            setLoggedIn(data?.email);
+        }).catch((err) => setLoggedIn(false));
+    }, [isLoggedIn]);
 
     const handleClick = (e) => {
         if (e.key === "logout") {
@@ -28,24 +34,25 @@ const Navbar = () => {
         }
     };
 
+    const handleLogoClick = () => {
+        history.push("/");
+    }
+
     const handleLogout = () => {
         localStorage.removeItem("token");
-        setIsLogged(false);
+        setLoggedIn(false);
         history.push("/");
     };
 
     return (
         <Header>
-            <a href="/">
-                <img
-                    src="https://clarusway.com/wp-content/uploads/2020/09/cw_son_editted.png"
-                    alt={"Logo"}
-                    className="logo"
-                    style={{ float: "left" }}
-
-                />
-            </a>
-
+            <img
+                src={logo}
+                alt={"Logo"}
+                className="logo"
+                style={{ float: "left" }}
+                onClick={handleLogoClick}
+            />
             <Menu
                 onClick={handleClick}
                 theme="dark"
@@ -54,21 +61,18 @@ const Navbar = () => {
             >
                 <Menu.Item key={""} >Home</Menu.Item>
                 <Menu.Item key={"books"} >Books</Menu.Item>
+                <Menu.Item key={"cart"}>
+                    <Avatar
+                        style={{ backgroundColor: 'rgba(0, 222, 0, 0.4)' }}
+                        icon={<ShoppingCartOutlined />}>
+                    </Avatar>
+                </Menu.Item>
                 {
-                    isLogged ?
-                        <>
-                            <Menu.Item key={"cart"}>
-                                <Badge count={4}>
-                                    <Avatar
-                                        style={{ backgroundColor: 'rgba(0, 222, 0, 0.4)' }}
-                                        icon={<ShoppingCartOutlined />}></Avatar>
-                                </Badge>
-                            </Menu.Item>
-                            <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-                                <Menu.Item key={"profile"}>Profile</Menu.Item>
-                                <Menu.Item key={"logout"}>Logout</Menu.Item>
-                            </SubMenu>
-                        </>
+                    isLoggedIn ?
+                        <SubMenu key="sub1" icon={<UserOutlined />} title="User">
+                            <Menu.Item key={"profile"}>Profile</Menu.Item>
+                            <Menu.Item key={"logout"}>Logout</Menu.Item>
+                        </SubMenu>
                         :
                         <>
                             <Menu.Item key={"signin"}>Signin</Menu.Item>

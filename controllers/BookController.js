@@ -2,10 +2,9 @@ const Book = require("../models/BookModel");
 
 // to return book list
 exports.getBookList = async (req, res) => {
-
     try {
         const BookList = await Book.find();
-        res.status(200).json({ BookList });
+        res.status(200).json(BookList);
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");
@@ -24,7 +23,7 @@ exports.getBookDetails = async (req, res) => {
                 .status(400)
                 .json({ msg: "There are no details for this book" });
         }
-        res.status(200).json({ BookDetails });
+        res.status(200).json(BookDetails);
 
     } catch (err) {
         console.error(err.message);
@@ -34,24 +33,24 @@ exports.getBookDetails = async (req, res) => {
 
 
 
-    /** 
-     * // to help to insert data
-    if (req.query.add == 1) {
-        try {
-            for (const element of BookFile.books) {
-                let { title, subtitle, author, published,
-                    publisher, pages, description, price } = element;
-                let book = new Book({ title, subtitle, author, published,
-                    publisher, pages, description, price });
-                try {
-                    console.log("book :", title, "saved");
-                    await book.save();
-                } catch (error) {
-                    console.log(error.message);
-                }
-            };
-        } catch (error) {
-            console.log(error.message);
-        }
-    }; 
-    */
+/**
+ * // to help to insert data
+if (req.query.add == 1) {
+    try {
+        for (const element of BookFile.books) {
+            let { title, subtitle, author, published,
+                publisher, pages, description, price } = element;
+            let book = new Book({ title, subtitle, author, published,
+                publisher, pages, description, price });
+            try {
+                console.log("book :", title, "saved");
+                await book.save();
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+*/

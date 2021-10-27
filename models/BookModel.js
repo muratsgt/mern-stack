@@ -5,9 +5,6 @@ const BookSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    subtitle: {
-        type: String,
-    },
     author: {
         type: String,
         required: true,
@@ -15,19 +12,22 @@ const BookSchema = new mongoose.Schema({
     description: {
         type: String,
     },
-    image: {
+    imageLink: {
         type: String,
     },
-    category: {
-        type: [String],
+    link: {
+        type: String,
+    },
+    language: {
+        type: String,
     },
     pages: {
         type: Number
     },
-    published: {
-        type: Date,
+    year: {
+        type: Number,
     },
-    publisher: {
+    country: {
         type: String,
     },
     price: {
