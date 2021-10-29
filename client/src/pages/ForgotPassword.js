@@ -1,5 +1,5 @@
-import { Form, Input, Button, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Form, Input, Button } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import { postData } from '../helper/PostData';
 import { useHistory } from 'react-router-dom';
 import { message } from 'antd';
@@ -25,6 +25,8 @@ const ForgotPassword = () => {
 
     return (
         <div className="App">
+            <h3>Forgot your password?</h3>
+            <p>Enter your email address below.<br/> We'll send you a link to reset your password.</p>
             <Form
                 id="login_form"
                 name="login"
@@ -48,7 +50,7 @@ const ForgotPassword = () => {
                 >
                     <Input
                         prefix={<UserOutlined className="site-form-item-icon" />}
-                        placeholder="Email" />
+                        placeholder="Enter your email" />
 
                 </Form.Item>
 

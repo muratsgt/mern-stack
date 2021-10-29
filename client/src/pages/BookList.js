@@ -8,9 +8,6 @@ const { CheckableTag } = Tag;
 const tagsData = ["Any", 'English', "German", 'Italian',
     'Arabic', 'French', "Spanish", "Russian", "Chinese", "Persian", "Japanese", "Greek"];
 
-
-// TODO: add filter
-
 const BookList = () => {
     const [bookList, setBookList] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
@@ -46,8 +43,8 @@ const BookList = () => {
     return (
         <div className="App">
 
-            <div style={{ float: "right", padding: 3, }}>
-                <span style={{ fontWeight:"bold", fontSize: "1rem", paddingRight: 15, }}>
+            <div className="tags-box">
+                <span style={{ fontWeight:"bold", paddingRight: 15, }}>
                     Language:
                 </span>
                 {tagsData.map(tag => (

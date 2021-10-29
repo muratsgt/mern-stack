@@ -1,41 +1,32 @@
 import { useContext, useEffect, useState } from "react";
-// import { BasketContext } from "../context/BasketContext";
-import { Table} from 'antd';
+import { List, Avatar, Button } from 'antd';
 import { fetchData } from "../helper/FetchData";
 import { AuthContext } from "../context/AuthContext";
-import {removeFromBasket } from "../helper/EditBasket";
-const { Column } = Table;
+import { removeFromBasket } from "../helper/EditBasket";
+import StripeCheckout from 'react-stripe-checkout';
+
 
 const Cart = () => {
     const [basketData, setBasketData] = useState([]);
     const { isLoggedIn } = useContext(AuthContext);
+    const [cost, setCost] = useState(0);
 
-    // How to do it with Context
-    // const { basketItems, setBasketItems } = useContext(BasketContext);
-    // useEffect(() => {
-    //     Promise.all(basketItems.map((item) => fetchData(`/api/books/details/${item.id}`)))
-    //         .then(allItems => setBasketData(allItems))
-    //         .then(console.log(basketData))
-    //         .catch(err => console.log(err));
-    // }, [basketItems]);
+    const fetchAndAdd = (item) => fetchData(`/api/books/details/${item._id}`)
+        .then((data) => {
+            return { ...data, quantity: item.quantity }
+        })
 
     useEffect(() => {
         // get data from localstorage
         const userCart = JSON.parse(localStorage.getItem(isLoggedIn ?? "default"));
         console.log("userCart: ", userCart?.basket);
-        const tempBasket = [];
         if (userCart) {
-            userCart?.basket.forEach((item) => {
-                fetchData(`/api/books/details/${item._id}`)
-                    .then((data) => {
-                        tempBasket.push({ ...data, quantity: item.quantity });
-                        setBasketData((prevdata => [...prevdata, { ...data, quantity: item.quantity }]))
-                    })
-            })
-            // Promise.all(userCart?.basket.map(fetchAndAdd))
-            //     .then(allItems => setBasketData(allItems))
-            //     .then(console.log("BASKETDATA: ", basketData))
-            //     .catch(err => console.log(err));
+            Promise.all(userCart?.basket.map(fetchAndAdd))
+                .then(allItems => {
+                    setBasketData(allItems);
+                    calculateCost(allItems);
+                })
+                .catch(err => console.log(err));
         }
     }, [isLoggedIn]);
 
@@ -51,34 +42,77 @@ const Cart = () => {
         if (tempNum > 1) {
             tempBasket[itemIndex].quantity = tempNum - 1
         } else {
+            tempBasket[itemIndex].quantity = tempNum - 1;
             tempBasket.splice(itemIndex, 1);
         };
         setBasketData(tempBasket);
     }
 
-    const handleDelete = (record) => {
-        removeFromBasket(record._id, isLoggedIn);
-        updateBasket(record);
+    const calculateCost = (basketData) => {
+        let tempCost = 0;
+        basketData.forEach(element => {
+            tempCost += (element.quantity * element.price);
+        });
+        setCost(tempCost);
+    }
+
+    const handleDelete = async (record) => {
+        await removeFromBasket(record._id, isLoggedIn);
+        await updateBasket(record);
+        calculateCost(basketData);
+    }
+
+    const onToken = (token) => {
+        fetch('/save-stripe-token', {
+            method: 'POST',
+            body: JSON.stringify(token),
+        }).then(response => {
+            response.json().then(data => {
+                alert(`We are in business, ${data.email}`);
+            });
+        });
     }
 
     return (
         <div className="App">
-            <div style={{ padding: 30, backgroundColor: "gray" }}>
-                <Table dataSource={basketData}>
-                    <Column title="Book ID" dataIndex="_id" key="_id" />
-                    <Column title="Title" dataIndex="title" key="_id" />
-                    <Column title="Author" dataIndex="author" key="_id" />
-                    <Column title="Price" dataIndex="price" key="_id" />
-                    <Column title="Quantity" dataIndex="quantity" key="_id" />
-                    <Column
-                        title="Action"
-                        key="_id"
-                        render={(_, record) => <button onClick={() => handleDelete(record)}>
-                            Delete</button>}
-                    />
-                </Table>
+            <h2 style={{ fontFamily: "sans-serif", fontWeight: "bold" }}>Shopping Cart</h2>
+            <div className="basket-container">
+                <List
+                    className="demo-loadmore-list"
+                    itemLayout="horizontal"
+                    dataSource={basketData}
+                    renderItem={item => (
+                        <List.Item
+                            actions={[<Button onClick={() => handleDelete(item)}
+                                type="link"
+                                key={item._id}>delete</Button>]}
+                        >
+                            <div className="item-desc">
+                                <List.Item.Meta
+                                    style={{minWidth:"200px"}}
+                                    avatar={<Avatar shape="square" size={64} src={"/" + item.imageLink} />}
+                                    title={<a href="https://ant.design">{item.title}</a>}
+                                    description={item.author}
+                                />
+                                <div>
+                                    <div>Unit Price: {item.price.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</div>
+                                    <div>Quantity: {item.quantity}</div>
+                                </div>
+                            </div>
+                        </List.Item>
+                    )}
+                />
+                <h3 style={{ textAlign: "right" }}>
+                    Total: <b>{cost.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}</b>
+                </h3>
+                <StripeCheckout
+                    name="Bookstore Checkout"
+                    token={onToken}
+                    stripeKey="pk_test_f3duw0VsAEM2TJFMtWQ90QAT"
+                    amount={cost * 100}
+                    currency="EUR"
+                />
             </div>
-
         </div>
     )
 };

@@ -3,16 +3,20 @@ import { Descriptions } from 'antd';
 import { fetchData } from "../helper/FetchData";
 import { AuthContext } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
+import { Skeleton } from 'antd';
 
 const Dashboard = () => {
     const [userData, setUserData] = useState();
+    const [loading, setLoading] = useState(true);
     const { isLoggedIn } = useContext(AuthContext);
+
     let history = useHistory();
 
     useEffect(() => {
         if (isLoggedIn) {
             fetchData("/api/profile").then((data) => {
                 setUserData(data);
+                setLoading(false);
             }).catch((err) => console.log(err));
         } else {
             history.push("/");
@@ -21,15 +25,20 @@ const Dashboard = () => {
 
     return (
         <div className="App">
-            <Descriptions title="User Info" bordered column={1}>
+            <h3>User Profile</h3>
+            <Descriptions bordered column={1}>
                 <Descriptions.Item label="First Name">
-                    {userData?.firstName}</Descriptions.Item>
+                    {loading ?
+                        <Skeleton active /> : userData?.firstName}</Descriptions.Item>
                 <Descriptions.Item label="Last Name">
-                    {userData?.lastName}</Descriptions.Item>
+                    {loading ?
+                        <Skeleton active /> : userData?.lastName}</Descriptions.Item>
                 <Descriptions.Item label="Email">
-                    {userData?.email}</Descriptions.Item>
+                    {loading ?
+                        <Skeleton active /> : userData?.email}</Descriptions.Item>
                 <Descriptions.Item label="Registered Since">
-                    {userData?.registerDate}</Descriptions.Item>
+                    {loading ?
+                        <Skeleton active /> : userData?.registerDate}</Descriptions.Item>
             </Descriptions>
         </div>
     )

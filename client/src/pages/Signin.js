@@ -2,33 +2,35 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { postData } from '../helper/PostData';
 import { useHistory } from 'react-router-dom';
-import { message} from 'antd';
+import { message } from 'antd';
 import { AuthContext } from '../context/AuthContext';
 import { useContext } from 'react';
 
 const Signin = () => {
-    const {setLoggedIn} = useContext(AuthContext)
+    const { setLoggedIn } = useContext(AuthContext)
     let history = useHistory();
 
     const onFinish = (values) => {
         postData("/api/auth/login", values).then((data) => {
             localStorage.setItem("token", data);
-            message.success('Login successfull',2);
+            message.success('Login successfull', 2);
             setLoggedIn(values.email);
             history.push("/");
         }).catch(err => {
-            console.log("FINISH ERROR: ",err);
-            message.error('Email or password does not match our records.',2);
+            console.log("FINISH ERROR: ", err);
+            message.error('Email or password does not match our records.', 2);
         });
     };
 
     const onFinishFailed = (errorInfo) => {
-        message.error("Please enter your email and password correctly.",2);
+        message.error("Please enter your email and password correctly.", 2);
     };
 
 
     return (
         <div className="App">
+            <h3>Welcome back!</h3>
+            <p>Sign in for points on each purchase, and more!</p>
             <Form
                 id="login_form"
                 name="login"
@@ -82,16 +84,16 @@ const Signin = () => {
                         <Checkbox>Remember me</Checkbox>
                     </Form.Item>
 
-                    <a className="login-form-forgot" href="/forgotpassword">
-                        Forgot password
-                    </a>
+                    <Button type="link" onClick={() => history.push("/forgotpassword")}>
+                        Forgot Password?</Button>
                 </Form.Item>
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className="login-form-button">
                         Sign In
                     </Button>
-                    Or <a href="/signup">register now!</a>
+                    Or <Button type="link" onClick={() => history.push("/signup")}>
+                        register now!</Button>
                 </Form.Item>
             </Form>
 

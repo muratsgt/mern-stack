@@ -3,10 +3,8 @@ import { useHistory } from "react-router-dom";
 import { Layout, Menu, Avatar } from "antd";
 import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
 import { AuthContext } from "../context/AuthContext";
-// import { BasketContext } from "../context/BasketContext";
 import { fetchData } from "../helper/FetchData";
 import logo from "../bookstore2.png";
-// import CartBadge from "./CartBadge";
 
 const { Header } = Layout;
 const { SubMenu } = Menu;
@@ -15,7 +13,6 @@ const { SubMenu } = Menu;
 const Navbar = () => {
     let history = useHistory();
     const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
-    // const { basketItems } = useContext(BasketContext);
     const [current, setCurrent] = useState("main");
 
     useEffect(() => {
@@ -50,7 +47,7 @@ const Navbar = () => {
                 src={logo}
                 alt={"Logo"}
                 className="logo"
-                style={{ float: "left" }}
+                style={{ float: "right" }}
                 onClick={handleLogoClick}
             />
             <Menu

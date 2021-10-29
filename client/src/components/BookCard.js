@@ -7,7 +7,7 @@ const BookCard = ({book, handleClick}) => {
             onClick={()=> handleClick(book?._id)}
             key={book?._id}
             hoverable
-            style={{ width: 240, margin: "10px" }}
+            className="book-card-style"
             cover={<img style={{height:240, objectFit:"cover"}} alt="example"
                 src={book?.imageLink} />}
         >

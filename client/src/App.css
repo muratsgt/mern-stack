@@ -1,4 +1,18 @@
 @import '~antd/dist/antd.css';
+@media only screen and (max-width: 420px) {
+  .App {
+    font-size: calc(22px + 3vmin);
+  }
+  main.ant-layout-content {
+    padding: 0px !important;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .App {
+    font-size: calc(10px + 3vmin);
+  }
+}
 
 .logo {
   width: 160px;
@@ -6,12 +20,11 @@
   cursor: pointer;
 }
 
-.App-header {}
-
-.App{
-  padding: calc(5px + 3vmin);
+.App {
+  margin: 0px;
+  padding: calc(5px + 3vmin) 0px;
   text-align: center;
-  min-height: 80vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,42 +45,95 @@
 #login_form .login-form {
   max-width: 300px;
 }
+
 #login_form .login-form-forgot {
   float: right;
 }
+
 #login_form .ant-col-rtl .login-form-forgot {
   float: left;
 }
+
 #login_form .login-form-button {
   width: 100%;
 }
 
-.detail-container{
+.detail-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.description-box{
+.description-box {
+  background-color: white;
   padding: 20px;
-  margin: 30px;
-  text-align: justify;
+  margin: 20px;
+  text-align: left;
   font-size: medium;
-  font-family:'Times New Roman', Times, serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   max-width: 800px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; 
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .bookinfo-box {
+  background-color: white;
   padding: 0px;
-  margin: 30px;
+  margin: 20px;
   text-align: justify;
-  font-family:Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   max-width: 500px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 8px; 
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 8px;
 }
 
-.info-label{
+.detail-image {
+  height: 360;
+  object-fit: cover;
+  margin: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 8px;
+}
+
+.tags-box {
+  padding: 5px;
+  float: "right";
+  margin: 10px;
   font-size: large;
+}
+
+.book-card-style {
+  width: 240px;
+  margin: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 8px;
+}
+
+.basket-container {
+  padding: 20px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: calc(150px + 35vw);
+  text-align: left;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 8px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.basket-container .item-desc {
+  min-width: calc(100px + 35vw);
+  display: flex;
+  flex-direction: row;
+}
+
+#main-page h1 {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 3rem;
+  padding-top: 20px;
+}
+
+#main-page h2 {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 2rem;
+  font-style: italic;
+  font-weight: bold;
 }

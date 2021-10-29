@@ -1,7 +1,8 @@
-import { Form, Input, Checkbox, Button } from 'antd';
+import { Form, Modal, Input, Checkbox, Button, message } from 'antd';
 import { postData } from '../helper/PostData';
 import { useHistory } from 'react-router-dom';
-import { message } from 'antd';
+import { useState } from 'react';
+import Terms from "../components/Terms";
 
 const validateMessages = {
     required: "${label} is required!",
@@ -11,9 +12,21 @@ const validateMessages = {
 };
 
 const Signup = () => {
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
     let history = useHistory();
 
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
 
     const onFinish = (values) => {
         postData("/api/auth/register", values).then((data) => {
@@ -31,7 +44,8 @@ const Signup = () => {
 
     return (
         <div className="App">
-
+            <h3>Welcome!</h3>
+            <p>Create an account for a better service.</p>
             <Form
                 layout="vertical"
                 form={form}
@@ -68,8 +82,8 @@ const Signup = () => {
                 <Form.Item
                     name="password"
                     label="Password"
-                    rules={[{ required: true }, { min: 6, message: 'Must be at least 6 characters!' }
-                    ]}
+                    rules={[{ required: true },
+                    { min: 6, message: 'Must be at least 6 characters!' }]}
                 >
                     <Input.Password />
                 </Form.Item>
@@ -109,7 +123,11 @@ const Signup = () => {
                     ]}
                 >
                     <Checkbox>
-                        I have read the <a href="/">agreement</a>
+                        I have read the <Button type="link" onClick={showModal}>agreement</Button>
+                        <Modal title="Terms and Conditions"
+                            visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                            <Terms />
+                        </Modal>
                     </Checkbox>
                 </Form.Item>
                 <Form.Item >
