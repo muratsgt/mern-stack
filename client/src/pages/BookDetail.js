@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { addToBasket } from '../helper/EditBasket';
 import { AuthContext } from '../context/AuthContext';
 import { Skeleton } from 'antd';
+import { message } from 'antd';
 
 const BookDetail = () => {
     const [bookData, setBookData] = useState([]);
@@ -21,6 +22,7 @@ const BookDetail = () => {
 
     const handleAdd = () => {
         addToBasket(id, isLoggedIn);
+        message.success('Added to Basket');
     };
 
     return (
@@ -69,7 +71,7 @@ const BookDetail = () => {
                         </Descriptions>
 
                     </div>
-                    <div className="description-box">
+                    <div className="about-box">
                         <h3>About:</h3>
                         <p>
                             {bookData?.description}

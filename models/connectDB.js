@@ -5,8 +5,6 @@ const connectDB = async () => {
         await mongoose.connect(process.env.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            // useFindAndModify: false,
-            // useCreateIndex: true,
         });
         // await hata donerse otomatik catche atliyor
         console.log(`Succesfully connected to DB`)

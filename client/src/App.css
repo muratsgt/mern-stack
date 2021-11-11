@@ -65,14 +65,14 @@
   flex-wrap: wrap;
 }
 
-.description-box {
+.about-box {
   background-color: white;
   padding: 20px;
   margin: 20px;
   text-align: left;
   font-size: medium;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  max-width: 800px;
+  max-width: 700px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
@@ -87,7 +87,7 @@
 }
 
 .detail-image {
-  height: 360;
+  height: 320px;
   object-fit: cover;
   margin: 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 8px;
