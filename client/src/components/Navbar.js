@@ -76,7 +76,6 @@ const Navbar = () => {
                             <Menu.Item key={"signup"}>Signup</Menu.Item>
                         </>
                 }
-
             </Menu>
         </Header >
     )
