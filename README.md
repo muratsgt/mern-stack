@@ -1,8 +1,7 @@
 ## MERN Stack (Front to Back 👍) Bookstore
-This is a **MERN stack** (MongoDB Express React Node) example app, that I created for training purposes. It is a online book store Web Application.
+This is a **MERN stack** (MongoDB Express React Node) example app, that I created for training purposes. It is an online book store Web Application.
 
-##### Website Demo on Heroku
-[Murat's Bookstore](https://node-mongo-booktest.herokuapp.com/)
+##### Website Demo on Heroku --> [Murat's Bookstore](https://node-mongo-booktest.herokuapp.com/)
 
 ## Table of contents
 
